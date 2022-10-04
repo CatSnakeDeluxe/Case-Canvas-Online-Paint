@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto:wght@300;400;500;700&family=Teko:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  overflow: hidden;
+  color: white;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+}
+
+#toolbar {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 120px;
+  background-color: #202020;
+}
+
+#toolbar label {
+  font-size: 1rem;
+}
+
+#toolbar button {
+  background-color: #cb5cff;
+  border: none;
+  border-radius: 4px;
+  color:white;
+  padding: 2px;
+}
+  
+canvas {
+  background: white;
+  /* margin: auto; */
+}
+
+#stroke {
+  width: 4rem;
+  height: 4rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "case-canvas-online-paint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatSnakeDeluxe/Case-Canvas-Online-Paint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CatSnakeDeluxe/Case-Canvas-Online-Paint/issues"
+  },
+  "homepage": "https://github.com/CatSnakeDeluxe/Case-Canvas-Online-Paint#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ws": "^8.9.0"
+  }
+}
