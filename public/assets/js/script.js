@@ -2,7 +2,7 @@ const websocket = new WebSocket("ws://localhost:8080");
 
 const handleSocketOpen = (e) => {
     console.log('Socket has been opened');
-    
+    // clientSize.innerText = connectedClients;
 };
 
 const handleSocketMessage = (e) => {
@@ -16,6 +16,7 @@ const handleSocketMessage = (e) => {
 websocket.onopen = handleSocketOpen;
 websocket.onmessage = handleSocketMessage;
 
+const clientSize = document.getElementById("clientSize");
 const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
 const ctx = canvas.getContext('2d');
@@ -34,19 +35,16 @@ let startY;
 toolbar.addEventListener('click', (e) => {
     if (e.target.id === 'clear') {
         ctx.reset();
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 });
 
 toolbar.addEventListener('change', (e) => {
     if(e.target.id === 'stroke') {
-        let strokeStyleVariable = e.target.value;
-        ctx.strokeStyle = strokeStyleVariable;
+        ctx.strokeStyle = e.target.value;
     }
 
     if(e.target.id === 'lineWidth') {
-        let lineWidthVariable = e.target.value;
-        lineWidth = lineWidthVariable;
+        lineWidth = e.target.value;
     }
     
 });
@@ -65,9 +63,8 @@ const paint = (e) => {
 
     // TODO send linewidth and color to paintObj
     // console.log("Client X: ", e.clientX - canvasOffsetX, "Client Y: ", e.clientY);
-    let paintObj = {type: "paint", x: e.clientX - canvasOffsetX, y: e.clientY };
+    let paintObj = {type: "paint", lineWidth: lineWidth, x: e.clientX - canvasOffsetX, y: e.clientY };
     websocket.send(JSON.stringify(paintObj));
-    // websocket.send(e.clientX - canvasOffsetX, e.clientY);
 }
 
 canvas.addEventListener('mousedown', (e) => {
@@ -91,4 +88,5 @@ function paintToCanvas(message) {
 
     ctx.lineTo(message.x, message.y);
     ctx.stroke();
+    ctx.beginPath();
 }
