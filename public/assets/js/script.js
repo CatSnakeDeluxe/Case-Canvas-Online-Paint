@@ -73,7 +73,7 @@ canvas.addEventListener('mousedown', (e) => {
     startY = e.clientY;
 });
 
-canvas.addEventListener('mouseup', (e) => {
+canvas.addEventListener('mouseup', () => {
     isPainting = false;
     ctx.stroke();
     ctx.beginPath();
@@ -82,7 +82,7 @@ canvas.addEventListener('mouseup', (e) => {
 canvas.addEventListener('mousemove', paint);
 
 function paintToCanvas(message) {
-    ctx.lineWidth = lineWidth;
+    ctx.lineWidth = message.lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
