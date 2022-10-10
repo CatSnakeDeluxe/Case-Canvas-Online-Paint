@@ -2,12 +2,11 @@ const websocket = new WebSocket("ws://localhost:8080");
 
 const handleSocketOpen = (e) => {
     console.log('Socket has been opened');
-    // clientSize.innerText = connectedClients;
 };
 
 const handleSocketMessage = (e) => {
     const message = JSON.parse(e.data);
-    console.log("message", message);
+    // console.log("message", message);
 
     if (message.type === "paint") {
         paintToCanvas(message);
@@ -34,6 +33,7 @@ canvas.height = window.innerHeight - canvasOffsetY;
 
 let isPainting = false;
 let lineWidth = 5;
+// let colour = '#000000';
 let startX;
 let startY;
 
@@ -45,13 +45,14 @@ toolbar.addEventListener('click', (e) => {
 
 toolbar.addEventListener('change', (e) => {
     if(e.target.id === 'stroke') {
+        console.log("color:" , e.target.value);
+        // colour = e.target.value;
         ctx.strokeStyle = e.target.value;
     }
 
     if(e.target.id === 'lineWidth') {
         lineWidth = e.target.value;
     }
-    
 });
 
 const paint = (e) => {
@@ -68,7 +69,7 @@ const paint = (e) => {
 
     // TODO send linewidth and color to paintObj
     console.log("Client X: ", e.clientX - canvasOffsetX, "Client Y: ", e.clientY);
-    let paintObj = {type: "paint", lineWidth: lineWidth, x: e.clientX - canvasOffsetX, y: e.clientY };
+    let paintObj = {type: "paint", lineWidth: lineWidth, colour: ctx.strokeStyle, x: e.clientX - canvasOffsetX, y: e.clientY };
     websocket.send(JSON.stringify(paintObj));
 }
 
@@ -91,6 +92,7 @@ function paintToCanvas(message) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
+    ctx.strokeStyle = message.colour;
     ctx.lineTo(message.x, message.y);
     ctx.stroke();
     ctx.beginPath();
