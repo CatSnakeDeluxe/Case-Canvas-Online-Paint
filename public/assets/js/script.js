@@ -8,8 +8,13 @@ const handleSocketOpen = (e) => {
 const handleSocketMessage = (e) => {
     const message = JSON.parse(e.data);
     console.log("message", message);
+
     if (message.type === "paint") {
         paintToCanvas(message);
+    }
+
+    else {
+        clientSize.innerText = message;
     }
 };
   
@@ -62,7 +67,7 @@ const paint = (e) => {
     ctx.stroke();
 
     // TODO send linewidth and color to paintObj
-    // console.log("Client X: ", e.clientX - canvasOffsetX, "Client Y: ", e.clientY);
+    console.log("Client X: ", e.clientX - canvasOffsetX, "Client Y: ", e.clientY);
     let paintObj = {type: "paint", lineWidth: lineWidth, x: e.clientX - canvasOffsetX, y: e.clientY };
     websocket.send(JSON.stringify(paintObj));
 }

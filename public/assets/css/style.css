@@ -36,6 +36,7 @@ body {
   border-radius: 4px;
   color:white;
   padding: 2px;
+  cursor: pointer;
 }
   
 canvas {
@@ -50,3 +51,17 @@ canvas {
   border: none;
   cursor: pointer;
 }
+
+.clientSizeContainer {
+  display: flex;
+}
+
+#clientSize {
+  margin-left: 0.3rem;
+}
+
+/* input[type="range"] {
+  -webkit-appearance: none;
+  background: aqua;
+  cursor: pointer;
+} */
