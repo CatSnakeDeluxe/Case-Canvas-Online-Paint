@@ -22,7 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  width: 120px;
+  width: 140px;
   background-color: #202020;
 }
 
@@ -61,4 +61,13 @@ canvas {
 
 #lineWidth {
   cursor: pointer;
+}
+
+.fa-square, .fa-circle {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+#fillColour {
+  margin-right: 0.5rem;
 }

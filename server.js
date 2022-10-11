@@ -8,7 +8,7 @@ const app = express();
 app.use(express.static("public"));
 
 const server = http.createServer(app);
-const wss = new WebSocketServer({ port: 8081 });
+const wss = new WebSocketServer({ noServer: true });
 
 server.on("upgrade", (req, socket, head) => {
     console.log("Upgrade event client: ", req.headers);
