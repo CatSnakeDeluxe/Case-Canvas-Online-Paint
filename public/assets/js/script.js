@@ -1,4 +1,4 @@
-const websocket = new WebSocket("ws://localhost:8080");
+const websocket = new WebSocket('ws://localhost:8080');
 
 const handleSocketOpen = (e) => {
     console.log('Socket has been opened');
@@ -20,7 +20,7 @@ const handleSocketMessage = (e) => {
 websocket.onopen = handleSocketOpen;
 websocket.onmessage = handleSocketMessage;
 
-const clientSize = document.getElementById("clientSize");
+const clientSize = document.getElementById('clientSize');
 const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
 const ctx = canvas.getContext('2d');
@@ -33,7 +33,6 @@ canvas.height = window.innerHeight - canvasOffsetY;
 
 let isPainting = false;
 let lineWidth = 5;
-// let colour = '#000000';
 let startX;
 let startY;
 
@@ -45,7 +44,7 @@ toolbar.addEventListener('click', (e) => {
 
 toolbar.addEventListener('change', (e) => {
     if(e.target.id === 'stroke') {
-        console.log("color:" , e.target.value);
+        console.log('color:' , e.target.value);
         // colour = e.target.value;
         ctx.strokeStyle = e.target.value;
     }
@@ -68,8 +67,8 @@ const paint = (e) => {
     ctx.stroke();
 
     // TODO send linewidth and color to paintObj
-    console.log("Client X: ", e.clientX - canvasOffsetX, "Client Y: ", e.clientY);
-    let paintObj = {type: "paint", lineWidth: lineWidth, colour: ctx.strokeStyle, x: e.clientX - canvasOffsetX, y: e.clientY };
+    console.log('Client X:' , e.clientX - canvasOffsetX, 'Client Y:', e.clientY);
+    let paintObj = {type: 'paint', lineWidth: lineWidth, colour: ctx.strokeStyle, x: e.clientX - canvasOffsetX, y: e.clientY };
     websocket.send(JSON.stringify(paintObj));
 }
 
@@ -96,4 +95,4 @@ function paintToCanvas(message) {
     ctx.lineTo(message.x, message.y);
     ctx.stroke();
     ctx.beginPath();
-}
+};

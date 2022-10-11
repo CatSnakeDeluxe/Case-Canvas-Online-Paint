@@ -20,7 +20,10 @@ server.on("upgrade", (req, socket, head) => {
 wss.on("connection", (ws) => {
     console.log("Number of connected clients: ", wss.clients.size);
     let connectedClients = wss.clients.size;
-    ws.send(JSON.stringify(connectedClients));
+    wss.clients.forEach(client => {
+        client.send(JSON.stringify(connectedClients));
+    });
+    
     // console.log(connectedClients);
 
     ws.on("close", () => {

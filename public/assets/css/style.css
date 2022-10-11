@@ -58,3 +58,7 @@ canvas {
 #clientSize {
   margin-left: 0.3rem;
 }
+
+#lineWidth {
+  cursor: pointer;
+}
