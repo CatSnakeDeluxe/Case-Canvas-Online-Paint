@@ -20,7 +20,7 @@ server.on("upgrade", (req, socket, head) => {
 wss.on("connection", (ws) => {
     console.log("Number of connected clients: ", wss.clients.size);
     
-    let connectedClients = wss.clients.size;
+    let connectedClients = {type: "clientsSize", size: wss.clients.size};
     wss.clients.forEach(client => {
         client.send(JSON.stringify(connectedClients));
     });
@@ -29,21 +29,34 @@ wss.on("connection", (ws) => {
         console.log("Client disconnected");
         console.log("Number of remaining connected clients: ", wss.clients.size);
         
-        connectedClients = wss.clients.size;
+        connectedClients = {type: "clientsSize", size: wss.clients.size};
         wss.clients.forEach(client => {
             client.send(JSON.stringify(connectedClients));
         });
     });
 
     ws.on("message", (data) => {
-        // console.log("Message received: ", data); 
-       let obj = JSON.parse(data);
-       console.log(obj);
-            wss.clients.forEach(client => {
-                if(client !== ws) {
-                    client.send(JSON.stringify(obj));
-                } 
-            });
+       let message = JSON.parse(data);
+       console.log(message);
+
+        switch (message.type) {
+            case "paint":
+                wss.clients.forEach(client => {
+                    if(client !== ws) {
+                        client.send(JSON.stringify(message));
+                    } 
+                });
+                break;
+
+            case "textMessage":
+                console.log(message)
+                wss.clients.forEach(client => {
+                    if(client !== ws) {
+                        client.send(JSON.stringify(message));
+                    } 
+                });
+                break;
+        }
     });
 });
 

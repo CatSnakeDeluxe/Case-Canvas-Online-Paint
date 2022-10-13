@@ -3,15 +3,22 @@ const websocket = new WebSocket("ws://localhost:8080");
 const clientSize = document.getElementById("clientSize");
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
-const shapesToolbar = document.getElementById("shapesToolbar");
+const canvasContainer = document.getElementById("canvasContainer");
 const fillColour = document.getElementById("fillColour");
 const ctx = canvas.getContext("2d");
+const saveImgBtn = document.getElementById("saveImg");
+const messageBox = document.getElementById("messageBox");
+const chatMessages = document.getElementById("chatMessages");
+const chatButton = document.getElementById("chatButton");
 
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
+
+// ctx.fillStyle = 'white';
+// ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let isPainting = false;
 let lineWidth = 5;
@@ -22,15 +29,6 @@ toolbar.addEventListener("click", (e) => {
     switch (e.target.id) {
         case "clear":
             ctx.reset();
-            break;
-        case "square":
-            console.log("square square");
-            paintRect();
-            break;
-
-        case "circle":
-            console.log("circle circle");
-            paintCircle();
             break;
     }
 });
@@ -65,32 +63,6 @@ const paint = (e) => {
     websocket.send(JSON.stringify(paintObj));
 }
 
-const paintRect = (e) => {
-    if (!fillColour.checked) {
-        // creating circle according to the mouse pointer
-        ctx.strokeRect(20, 20, 150, 100);
-    } else {
-        ctx.fillRect(20, 20, 150, 100);
-    }
-}
-
-const paintCircle = (e) => {
-    if (!fillColour.checked) {
-        ctx.beginPath();
-        ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-        ctx.stroke();
-    } else {
-        ctx.beginPath();
-        ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
-    // ctx.beginPath();
-    // let radius = Math.sqrt(Math.pow((4 - 2), 2) + Math.pow((prevMouseY - e.offsetY), 2));
-    // ctx.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI); // creating circle according to the mouse pointer
-    // fillColour.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill circle else draw border circle
-}
-
 canvas.addEventListener("mousedown", (e) => {
     isPainting = true;
     startX = e.clientX;
@@ -106,6 +78,7 @@ canvas.addEventListener("mouseup", () => {
 canvas.addEventListener("mousemove", paint);
 
 function paintToCanvas(message) {
+    
     ctx.lineWidth = message.lineWidth;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -124,14 +97,58 @@ const handleSocketMessage = (e) => {
     const message = JSON.parse(e.data);
     // console.log("message", message);
 
-    if (message.type === "paint") {
-        paintToCanvas(message);
-    }
+    switch (message.type) {
+        case "paint":
+            paintToCanvas(message);
+            break;
 
-    else {
-        clientSize.innerText = message;
+         case "clientsSize":
+            clientSize.innerText = message.size;
+            break;
+
+        case "textMessage":
+            console.log("textMessage");
+            renderMessage(message);
+            break;
+    
+        default:
+            break;
     }
 };
   
 websocket.onopen = handleSocketOpen;
 websocket.onmessage = handleSocketMessage;
+
+messageBox.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && messageBox.value.length > 0) {
+        let textMessage = { type: "textMessage", msg: messageBox.value };
+        renderMessage(textMessage);
+        websocket.send(JSON.stringify(textMessage));
+        messageBox.value = "";
+    }
+});
+
+chatButton.addEventListener("click", (e) => {
+    if (messageBox.value.length > 0) {
+        let textMessage = { type: "textMessage", msg: messageBox.value };
+        renderMessage(textMessage);
+        websocket.send(JSON.stringify(textMessage));
+        messageBox.value = "";
+    }
+});
+
+function renderMessage(textMessage) {
+    let newMessage = document.createElement("p");
+    newMessage.classList.add("chatMessage");
+    newMessage.innerText = textMessage.msg;
+    chatMessages.prepend(newMessage);
+}
+
+saveImgBtn.addEventListener('click', function() {
+    console.log(canvas.toDataURL());
+    const link = document.createElement('a');
+    link.download = 'download.png';
+    link.href = canvas.toDataURL();
+    link.click();
+    link.delete;
+  });
