@@ -49,11 +49,12 @@ wss.on("connection", (ws) => {
                 break;
 
             case "textMessage":
-                console.log(message)
                 wss.clients.forEach(client => {
                     if(client !== ws) {
+                        message.backgroundColour = "#7a7a7a";
+                        console.log("backgroundColour", message.backgroundColour);
                         client.send(JSON.stringify(message));
-                    } 
+                    }
                 });
                 break;
         }

@@ -48,13 +48,13 @@ body {
 .fa-brush {
   font-size: 1.5rem;
   margin-right: 0.8rem;
+  opacity: 70%;
 }
 
 .btn {
-  background-color: #ac75dc;
+  background-color: #bf81f5;
   border: none;
   font-size: 1rem;
-  font-weight: 600;
   border-radius: 1rem;
   color:#202020;
   padding: 0.5rem;
@@ -74,11 +74,14 @@ canvas {
 #chat h1 {
   text-align: center;
   margin-bottom: 0.6rem;
+  opacity: 70%;
+  font-weight: 300;
 }
 
 .chatMessage {
-  background: #4b4b4b;
-  padding: 0.6rem 1.2rem;
+  /* background: #4b4b4b; */
+  color:#202020;
+  padding: 0.4rem 1.2rem;
   border-radius: 2rem;
   margin: 1rem;
   max-width: max-content;
@@ -86,24 +89,28 @@ canvas {
 }
 
 #chatButton {
-  background: #ac75dc;
-  border: none;
+  /* background: #7a7a7a; */
+  border: 2px solid #bf81f5;
+  background: transparent;
   height: 2.4rem;
   width: 3rem;
   border-radius: 0 2rem 2rem 0;
-  color:white;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   cursor: pointer;
-  position: relative;
-  top: -2px;
 }
 
 .fa-paper-plane {
-  color: #202020;
+  color: #bf81f5;
+  font-size: 1rem;
+}
+
+#chatBoxInput {
+  display: flex;
+  justify-content: center;
 }
 
 #messageBox {
-  width: 86%;
+  width: 77%;
   font-size: 1.2rem;
   border-radius: 2rem 0 0 2rem;
   height: 2.4rem;
@@ -128,4 +135,9 @@ canvas {
 #lineWidth {
   cursor: pointer;
   width: 80%;
+}
+
+#chatMessages {
+  overflow-y:auto;
+  height: 400px;
 }

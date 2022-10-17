@@ -1,7 +1,12 @@
-const websocket = new WebSocket("ws://localhost:8080");
+// const websocket = new WebSocket("ws://localhost:8080");
+
+const trimSlashes = str => str.split('/').filter(v => v !== '').join('/');
+const baseURL = trimSlashes(window.location.href.split("//")[1]);
+const protocol = 'wss';
+const websocket = new WebSocket(`${protocol}://${baseURL}`);
 
 const clientSize = document.getElementById("clientSize");
-const canvas = document.getElementById("drawing-board");
+const canvas = document.getElementById("drawingBoard");
 const toolbar = document.getElementById("toolbar");
 const canvasContainer = document.getElementById("canvasContainer");
 const fillColour = document.getElementById("fillColour");
@@ -17,8 +22,8 @@ const canvasOffsetY = canvas.offsetTop;
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
-// ctx.fillStyle = 'white';
-// ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = 'white';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let isPainting = false;
 let lineWidth = 5;
@@ -107,11 +112,7 @@ const handleSocketMessage = (e) => {
             break;
 
         case "textMessage":
-            console.log("textMessage");
             renderMessage(message);
-            break;
-    
-        default:
             break;
     }
 };
@@ -121,7 +122,7 @@ websocket.onmessage = handleSocketMessage;
 
 messageBox.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && messageBox.value.length > 0) {
-        let textMessage = { type: "textMessage", msg: messageBox.value };
+        let textMessage = { type: "textMessage", msg: messageBox.value, backgroundColour: "#bf81f5" };
         renderMessage(textMessage);
         websocket.send(JSON.stringify(textMessage));
         messageBox.value = "";
@@ -130,7 +131,7 @@ messageBox.addEventListener("keydown", (e) => {
 
 chatButton.addEventListener("click", (e) => {
     if (messageBox.value.length > 0) {
-        let textMessage = { type: "textMessage", msg: messageBox.value };
+        let textMessage = { type: "textMessage", msg: messageBox.value, backgroundColour: "#ac75dc" };
         renderMessage(textMessage);
         websocket.send(JSON.stringify(textMessage));
         messageBox.value = "";
@@ -138,9 +139,11 @@ chatButton.addEventListener("click", (e) => {
 });
 
 function renderMessage(textMessage) {
+    console.log("textMessage: ", textMessage);
     let newMessage = document.createElement("p");
     newMessage.classList.add("chatMessage");
     newMessage.innerText = textMessage.msg;
+    newMessage.style.background = textMessage.backgroundColour;
     chatMessages.prepend(newMessage);
 }
 
