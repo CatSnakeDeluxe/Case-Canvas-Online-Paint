@@ -10,7 +10,7 @@ const usernames = [
     "CrowdedVelociraptor", "ImportantMosquito"
 ];
 
-const port = 3000;
+const port = 8080;
 const app = express();
 
 app.use(express.static("public"));
