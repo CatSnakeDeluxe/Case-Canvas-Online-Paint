@@ -2,6 +2,14 @@ import express from "express";
 import http from "http";
 import { WebSocketServer } from "ws";
 
+const usernames = [
+    "TalentedLizard", "TiredFruitFly", "GlamorousButterfly", 
+    "LuckyPufferfish", "CarefulPigeon", "ElegantElectricEel", 
+    "PleasantSeaCucumber", "HappySnail", "DifficultTigerShark",
+    "LonelyToad", "UglySeahorse", "BoredFerret", "AmusedSeaTurtle",
+    "CrowdedVelociraptor", "ImportantMosquito"
+];
+
 const port = 8080;
 const app = express();
 
@@ -21,8 +29,14 @@ wss.on("connection", (ws) => {
     console.log("Number of connected clients: ", wss.clients.size);
     
     let connectedClients = {type: "clientsSize", size: wss.clients.size};
+    let clientUsername = {type: "clientUsername", name: usernames[0]};
+    usernames. shift();
+
     wss.clients.forEach(client => {
         client.send(JSON.stringify(connectedClients));
+        if (client === ws) {
+            client.send(JSON.stringify(clientUsername));
+        }
     });
 
     ws.on("close", () => {

@@ -1,11 +1,12 @@
-// const websocket = new WebSocket("ws://localhost:8080");
+const websocket = new WebSocket("ws://localhost:8080");
 
-const trimSlashes = str => str.split('/').filter(v => v !== '').join('/');
-const baseURL = trimSlashes(window.location.href.split("//")[1]);
-const protocol = 'wss';
-const websocket = new WebSocket(`${protocol}://${baseURL}`);
+// const trimSlashes = str => str.split('/').filter(v => v !== '').join('/');
+// const baseURL = trimSlashes(window.location.href.split("//")[1]);
+// const protocol = 'wss';
+// const websocket = new WebSocket(`${protocol}://${baseURL}`);
 
 const clientSize = document.getElementById("clientSize");
+const clientUsername = document.getElementById("clientUsername");
 const canvas = document.getElementById("drawingBoard");
 const toolbar = document.getElementById("toolbar");
 const canvasContainer = document.getElementById("canvasContainer");
@@ -111,6 +112,11 @@ const handleSocketMessage = (e) => {
             clientSize.innerText = message.size;
             break;
 
+        case "clientUsername":
+            clientUsername.innerText = message.name;
+            // renderUsername(message.name);
+            break;
+
         case "textMessage":
             renderMessage(message);
             break;
@@ -122,7 +128,7 @@ websocket.onmessage = handleSocketMessage;
 
 messageBox.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && messageBox.value.length > 0) {
-        let textMessage = { type: "textMessage", msg: messageBox.value, backgroundColour: "#bf81f5" };
+        let textMessage = { type: "textMessage", user: clientUsername.innerText, msg: messageBox.value, backgroundColour: "#bf81f5" };
         renderMessage(textMessage);
         websocket.send(JSON.stringify(textMessage));
         messageBox.value = "";
@@ -131,7 +137,7 @@ messageBox.addEventListener("keydown", (e) => {
 
 chatButton.addEventListener("click", (e) => {
     if (messageBox.value.length > 0) {
-        let textMessage = { type: "textMessage", msg: messageBox.value, backgroundColour: "#ac75dc" };
+        let textMessage = { type: "textMessage", user: clientUsername.innerText, msg: messageBox.value, backgroundColour: "#ac75dc" };
         renderMessage(textMessage);
         websocket.send(JSON.stringify(textMessage));
         messageBox.value = "";
@@ -144,7 +150,12 @@ function renderMessage(textMessage) {
     newMessage.classList.add("chatMessage");
     newMessage.innerText = textMessage.msg;
     newMessage.style.background = textMessage.backgroundColour;
-    chatMessages.prepend(newMessage);
+
+    let newMessageUsername = document.createElement("p");
+    newMessageUsername.classList.add("chatMessageUsername");
+    newMessageUsername.innerText = textMessage.user;
+
+    chatMessages.prepend(newMessage, newMessageUsername);
 }
 
 saveImgBtn.addEventListener('click', function() {

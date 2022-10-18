@@ -83,9 +83,15 @@ canvas {
   color:#202020;
   padding: 0.4rem 1.2rem;
   border-radius: 2rem;
-  margin: 1rem;
+  margin-left: 1rem;
+  margin-top: 0.6rem;
   max-width: max-content;
   overflow-wrap: break-word;
+}
+
+.chatMessageUsername {
+  margin-left: 1rem;
+  opacity: 50%;
 }
 
 #chatButton {
@@ -128,7 +134,7 @@ canvas {
   cursor: pointer;
 }
 
-#clientSize {
+#clientSize, #clientUsername {
   margin-left: 0.3rem;
 }
 
@@ -140,4 +146,11 @@ canvas {
 #chatMessages {
   overflow-y:auto;
   height: 400px;
+}
+
+#usernameContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  opacity: 70%;
 }
