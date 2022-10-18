@@ -91,6 +91,8 @@ canvas {
 
 .chatMessageUsername {
   margin-left: 1rem;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
   opacity: 50%;
 }
 
