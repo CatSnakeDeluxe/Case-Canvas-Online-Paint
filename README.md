@@ -6,7 +6,7 @@
 
 #### The only step 
 
-Enter in browser: https://online-paint.onrender.com/
+Enter in browser: https://online-paint-2-0.onrender.com/
 
 ### Use and make changes on your local machine
 
