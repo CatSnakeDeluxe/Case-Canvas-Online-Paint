@@ -2,7 +2,7 @@ import express from "express";
 import http from "http";
 import { WebSocketServer } from "ws";
 
-const usernames = [
+let usernames = [
     "TalentedLizard", "TiredFruitFly", "GlamorousButterfly", 
     "LuckyPufferfish", "CarefulPigeon", "ElegantElectricEel", 
     "PleasantSeaCucumber", "HappySnail", "DifficultTigerShark",
@@ -29,6 +29,17 @@ wss.on("connection", (ws) => {
     console.log("Number of connected clients: ", wss.clients.size);
     
     let connectedClients = {type: "clientsSize", size: wss.clients.size};
+    
+    if (usernames.length === 0) {
+        usernames = [
+            "TalentedLizard", "TiredFruitFly", "GlamorousButterfly", 
+            "LuckyPufferfish", "CarefulPigeon", "ElegantElectricEel", 
+            "PleasantSeaCucumber", "HappySnail", "DifficultTigerShark",
+            "LonelyToad", "UglySeahorse", "BoredFerret", "AmusedSeaTurtle",
+            "CrowdedVelociraptor", "ImportantMosquito"
+        ];
+    }
+    
     let clientUsername = {type: "clientUsername", name: usernames[0]};
     usernames.shift();
 
