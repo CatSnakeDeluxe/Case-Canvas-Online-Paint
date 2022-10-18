@@ -1,9 +1,9 @@
-const websocket = new WebSocket("ws://localhost:8080");
+// const websocket = new WebSocket("ws://localhost:8080");
 
-// const trimSlashes = str => str.split('/').filter(v => v !== '').join('/');
-// const baseURL = trimSlashes(window.location.href.split("//")[1]);
-// const protocol = 'wss';
-// const websocket = new WebSocket(`${protocol}://${baseURL}`);
+const trimSlashes = str => str.split('/').filter(v => v !== '').join('/');
+const baseURL = trimSlashes(window.location.href.split("//")[1]);
+const protocol = 'wss';
+const websocket = new WebSocket(`${protocol}://${baseURL}`);
 
 const clientSize = document.getElementById("clientSize");
 const clientUsername = document.getElementById("clientUsername");
