@@ -10,7 +10,7 @@ const usernames = [
     "CrowdedVelociraptor", "ImportantMosquito"
 ];
 
-const port = 8080;
+const port = 3000;
 const app = express();
 
 app.use(express.static("public"));
@@ -30,7 +30,7 @@ wss.on("connection", (ws) => {
     
     let connectedClients = {type: "clientsSize", size: wss.clients.size};
     let clientUsername = {type: "clientUsername", name: usernames[0]};
-    usernames. shift();
+    usernames.shift();
 
     wss.clients.forEach(client => {
         client.send(JSON.stringify(connectedClients));
