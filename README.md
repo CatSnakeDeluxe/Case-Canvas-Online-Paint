@@ -12,7 +12,7 @@ Enter in browser: https://online-paint.onrender.com/
 
 #### Step One 
 
-Clone or download the project to your local machine.
+Clone or download the project (from main branch) to your local machine.
 
 #### Step Two 
 
